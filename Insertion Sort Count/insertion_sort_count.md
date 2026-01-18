@@ -1,4 +1,4 @@
-# Make Zero Solution 2
+# Insertion Sort 
 
 ## 1. วิเคราะห์โจทย์
 
