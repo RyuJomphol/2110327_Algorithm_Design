@@ -21,7 +21,7 @@ int main() {
 //  }
     vector<long long> num_before(N);
     num_before[0] = sort_array[0].second;
-    for (int i = 0 ; i < N ; i++) {
+    for (int i = 0 ; i < N - 1 ; i++) {
         num_before[i + 1] = num_before[i] + sort_array[i + 1].second;
     }
 //  for (auto x : array_idx) {
