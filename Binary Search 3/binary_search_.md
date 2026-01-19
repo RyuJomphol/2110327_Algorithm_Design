@@ -59,7 +59,7 @@ return high;
 **ส่วน** `main`:
 * รับค่า $N, M$ และรับ Array เข้ามาเก็บใน `vector<int> v`
 * วนลูปรับค่า Query (`num2`) และเรียก `find_num`
-* ถ้าได้ index -1 ให้พิมพ์ -1 ถ้าได้ index ปกติ ให้พิมพ์ค่าใน Array ณ index นั้น (`v[idx]`)
+* พิมพ์ค่า index นั้น (`idx`)
 ```cpp
 int main() {
     ios_base::sync_with_stdio(false);
