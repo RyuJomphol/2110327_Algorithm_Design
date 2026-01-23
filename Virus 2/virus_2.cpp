@@ -14,6 +14,14 @@ virus test_divoc(vector<int> gene , int start , int end , int k) {
     if (k == 0) {
         return {true, gene[start]};
     }
+
+    int mid = (start + end) / 2;
+    virus left = test_divoc(gene, start, mid, k - 1);
+    virus right = test_divoc(gene, mid + 1, end, k - 1);
+
+    bool current_is_divoc = left.is_divoc && right.is_divoc && (abs(left.count_one - right.count_one) <= 1);
+
+    return {current_is_divoc, left.count_one + right.count_one};
 }
 
 int main() {
@@ -28,7 +36,14 @@ int main() {
             cin >> gene[j];
         }
 
+        virus final_result = test_divoc(gene , 0, virus_length - 1, k);
 
+        if (final_result.is_divoc) {
+            cout << "yes" << endl;
+        }
+        else {
+            cout << "no" << endl;
+        }
         
     }
 }
