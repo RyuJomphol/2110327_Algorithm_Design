@@ -128,7 +128,7 @@ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}
    * ตำแหน่ง (1,1): $(3\times2 + 4\times4) = 22 \pmod{10} \rightarrow 2$
   * ตอนนี้ $A$ กลายเป็น
     ```math
-    \begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}
+    \begin{bmatrix} 7 & 0 \\ 5 & 2 \end{bmatrix}
     ```
 * ลดค่า `n`: `n = n / 2` $\rightarrow$ `n = 1`
 
@@ -140,7 +140,7 @@ A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}
 ```
   * ผลลัพธ์ `res` กลายเป็น
 ```math
-    \begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}
+    \begin{bmatrix} 7 & 0 \\ 5 & 2 \end{bmatrix}
 ```
 * คำนวณ `A = multiply(A, A, 10):`
   * $A$ ถูกยกกำลังต่อไป (กลายเป็น $A^4$) แต่รอบหน้าไม่ได้ใช้แล้ว
