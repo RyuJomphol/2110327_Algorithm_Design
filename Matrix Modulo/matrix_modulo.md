@@ -104,14 +104,14 @@ int main () {
 * $n = 2$ (เลขยกกำลัง)
 * $k = 10$ (ตัวหาร Modulo)
 ```math
-$A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$
+A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}
 ```
 **เป้าหมาย:** คำนวณ $A^2 \pmod{10}$
 
 **ขั้นตอนการทำงาน (Step-by-Step Trace)**
 เริ่มฟังก์ชัน `power(A, n=2, k=10)` `res` เริ่มต้นคือ Identity Matrix
 ```math
-$\begin{bmatrix}1 & 0 \\\ 0 & 1\end{bmatrix}$
+\begin{bmatrix}1 & 0 \\\ 0 & 1\end{bmatrix}
 ```
 
 **Loop รอบที่ 1:**
@@ -120,15 +120,15 @@ $\begin{bmatrix}1 & 0 \\\ 0 & 1\end{bmatrix}$
 * คำนวณ `A = multiply(A, A, 10)` (ยกกำลังสองตัวฐาน):
   * คำนวณ
 ```math
-    $A \times A$ : $$\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} \times \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$$
+    A \times A : \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} \times \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}
 ```
-    * ตำแหน่ง (0,0): $(1\times1 + 2\times3) = 7 \pmod{10} \rightarrow 7$
-    * ตำแหน่ง (0,1): $(1\times2 + 2\times4) = 10 \pmod{10} \rightarrow 0$
-    * ตำแหน่ง (1,0): $(3\times1 + 4\times3) = 15 \pmod{10} \rightarrow 5$
-    * ตำแหน่ง (1,1): $(3\times2 + 4\times4) = 22 \pmod{10} \rightarrow 2$
+   * ตำแหน่ง (0,0): $(1\times1 + 2\times3) = 7 \pmod{10} \rightarrow 7$
+   * ตำแหน่ง (0,1): $(1\times2 + 2\times4) = 10 \pmod{10} \rightarrow 0$
+   * ตำแหน่ง (1,0): $(3\times1 + 4\times3) = 15 \pmod{10} \rightarrow 5$
+   * ตำแหน่ง (1,1): $(3\times2 + 4\times4) = 22 \pmod{10} \rightarrow 2$
   * ตอนนี้ $A$ กลายเป็น
     ```math
-    $\begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}$
+    \begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}
     ```
 * ลดค่า `n`: `n = n / 2` $\rightarrow$ `n = 1`
 
@@ -136,11 +136,11 @@ $\begin{bmatrix}1 & 0 \\\ 0 & 1\end{bmatrix}$
 * ตรวจสอบ `n = 1` (เลขคี่):
   * เงื่อนไข `n % 2 == 1` เป็นจริง -> **คูณ** `res` **ด้วย** `A` **ปัจจุบัน**
 ```math
-    `res` = $\begin{bmatrix} 1 & 0 \\\ 0 & 1 \end{bmatrix} \times \begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}$
+    res = \begin{bmatrix} 1 & 0 \\\ 0 & 1 \end{bmatrix} \times \begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}
 ```
   * ผลลัพธ์ `res` กลายเป็น
 ```math
-    \begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}$
+    \begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}
 ```
 * คำนวณ `A = multiply(A, A, 10):`
   * $A$ ถูกยกกำลังต่อไป (กลายเป็น $A^4$) แต่รอบหน้าไม่ได้ใช้แล้ว
