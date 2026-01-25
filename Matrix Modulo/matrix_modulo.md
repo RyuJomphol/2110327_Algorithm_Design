@@ -107,7 +107,7 @@ int main () {
 **เป้าหมาย:** คำนวณ $A^2 \pmod{10}$
 
 **ขั้นตอนการทำงาน (Step-by-Step Trace)**
-เริ่มฟังก์ชัน `power(A, n=2, k=10)` `res` เริ่มต้นคือ Identity Matrix $\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$
+เริ่มฟังก์ชัน `power(A, n=2, k=10)` `res` เริ่มต้นคือ Identity Matrix $$\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}$$
 
 **Loop รอบที่ 1:**
 * ตรวจสอบ `n = 2` (เลขคู่):
