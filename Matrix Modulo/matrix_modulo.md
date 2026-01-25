@@ -11,7 +11,7 @@
 * หลักการคือการเปลี่ยนจากการคูณทีละ 1 ครั้ง เป็นการ "ยกกำลังสอง" ไปเรื่อยๆ (Squaring)
 * **ตัวอย่าง:** หากต้องการคำนวณ $A^8$
   * แบบช้า: $A \times A \times A \times ...$ (7 ครั้ง)
-  * แบบเร็ว: $A^2 = A \times A$ $A^4 = A^2 \times A^2$ $A^8 = A^4 \times A^4$
+  * แบบเร็ว: $A^2 = A \times A$ , $A^4 = A^2 \times A^2$ , $A^8 = A^4 \times A^4$
   * **ใช้การคูณเพียง 3 ครั้งเท่านั้น**
 * ความซับซ้อนของเวลาจะลดลงจาก $O(n)$ เหลือเพียง $O(\log n)$ ซึ่งเร็วมากและผ่านโจทย์ข้อนี้ได้สบาย ๆ
 
@@ -103,30 +103,30 @@ int main () {
 
 * $n = 2$ (เลขยกกำลัง)
 * $k = 10$ (ตัวหาร Modulo)
-* $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$
+* $A = \begin{bmatrix} 1 & 2 \\\ 3 & 4 \end{bmatrix}$
 **เป้าหมาย:** คำนวณ $A^2 \pmod{10}$
 
 **ขั้นตอนการทำงาน (Step-by-Step Trace)**
 เริ่มฟังก์ชัน `power(A, n=2, k=10)` `res` เริ่มต้นคือ Identity Matrix
-$\begin{bmatrix}1 & 0 \\ 0 & 1\end{bmatrix}$
+$\begin{bmatrix}1 & 0 \\\ 0 & 1\end{bmatrix}$
 
 **Loop รอบที่ 1:**
 * ตรวจสอบ `n = 2` (เลขคู่):
   * เงื่อนไข `n % 2 == 1` เป็นเท็จ -> **ไม่ทำอะไรกับ** `res`
 * คำนวณ `A = multiply(A, A, 10)` (ยกกำลังสองตัวฐาน):
-  * คำนวณ $A \times A$:$$\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} \times \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$$
+  * คำนวณ $A \times A$ : $$\begin{bmatrix} 1 & 2 \\\ 3 & 4 \end{bmatrix} \times \begin{bmatrix} 1 & 2 \\\ 3 & 4 \end{bmatrix}$$
     * ตำแหน่ง (0,0): $(1\times1 + 2\times3) = 7 \pmod{10} \rightarrow 7$
     * ตำแหน่ง (0,1): $(1\times2 + 2\times4) = 10 \pmod{10} \rightarrow 0$
     * ตำแหน่ง (1,0): $(3\times1 + 4\times3) = 15 \pmod{10} \rightarrow 5$
     * ตำแหน่ง (1,1): $(3\times2 + 4\times4) = 22 \pmod{10} \rightarrow 2$
-  * ตอนนี้ $A$ กลายเป็น $\begin{bmatrix} 7 & 0 \\ 5 & 2 \end{bmatrix}$
+  * ตอนนี้ $A$ กลายเป็น $\begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}$
 * ลดค่า `n`: `n = n / 2` $\rightarrow$ `n = 1`
 
 **Loop รอบที่ 2:**
 * ตรวจสอบ `n = 1` (เลขคี่):
   * เงื่อนไข `n % 2 == 1` เป็นจริง -> **คูณ** `res` **ด้วย** `A` **ปัจจุบัน**
-  * `res` = $\begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix} \times \begin{bmatrix} 7 & 0 \\ 5 & 2 \end{bmatrix}$
-  * ผลลัพธ์ `res` กลายเป็น $\begin{bmatrix} 7 & 0 \\ 5 & 2 \end{bmatrix}$
+  * `res` = $\begin{bmatrix} 1 & 0 \\\ 0 & 1 \end{bmatrix} \times \begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}$
+  * ผลลัพธ์ `res` กลายเป็น $\begin{bmatrix} 7 & 0 \\\ 5 & 2 \end{bmatrix}$
 * คำนวณ `A = multiply(A, A, 10):`
   * $A$ ถูกยกกำลังต่อไป (กลายเป็น $A^4$) แต่รอบหน้าไม่ได้ใช้แล้ว
 * ลดค่า `n`: `n = 1 / 2` $\rightarrow$ `n = 0`
