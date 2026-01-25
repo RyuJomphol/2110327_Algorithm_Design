@@ -1,4 +1,4 @@
-# Virus 2
+# Triforce
 
 ## 1. วิเคราะห์โจทย์
 
@@ -19,40 +19,71 @@
 
 ## 2. แนวคิดหลัก
 
-**ส่วนที่ 1: โครงสร้างข้อมูล (Struct)**
+**ส่วนที่ 1: การประกาศตัวแปรและฟังก์ชันเช็ค 0 (`isAllZero`)**
 
 ```cpp
-struct virus {
-    bool is_divoc;  // เก็บสถานะว่าเป็นไวรัสที่ถูกต้องตามกฎหรือไม่
-    int count_one;  // เก็บจำนวนเลข 1 ในช่วงนั้นๆ (เพื่อใช้เทียบกับอีกฝั่ง)
-};
+int grid[256][256]; // จองพื้นที่ตารางขนาดใหญ่สุด (2^8 = 256) เป็น Global เพื่อให้ทุกฟังก์ชันเรียกใช้ได้
+
+// ฟังก์ชันตรวจสอบว่าพื้นที่สี่เหลี่ยมย่อย เป็นเลข 0 ทั้งหมดหรือไม่
+// r, c = พิกัดเริ่มต้น (แถว, หลัก), s = ขนาด (size)
+bool isAllZero(int r, int c, int s) {
+    for (int i = r; i < r + s ; i++) {
+        for (int j = c; j < c + s ; j++) {
+            if (grid[i][j] != 0) return false; // ถ้าเจอตัวที่ไม่ใช่ 0 แม้แต่ตัวเดียว ให้ตอบ false ทันที
+        }
+    }
+    return true; // ถ้าวนครบแล้วไม่เจออะไรผิดปกติ แสดงว่าเป็น 0 ทั้งหมด
+}
 ```
 
-* เราจำเป็นต้องส่งค่ากลับ 2 ค่า คือ "เป็น/ไม่เป็น" และ "จำนวนเลข 1" จึงสร้าง `struct` ขึ้นมาเพื่อมัดรวมข้อมูลนี้ส่งกลับขึ้นไปใน Recursion
+**ส่วนที่ 2: ฟังก์ชันหลักในการหาคำตอบ (`getTriforceType`)**
+ฟังก์ชันนี้แบ่งการทำงานเป็น 2 ส่วน คือ **Base Case** (หยุดเรียกซ้ำ) และ **Recursive Step** (เรียกซ้ำ)
 
-**ส่วนที่ 2: ฟังก์ชันตรวจสอบ (Recursive Function)**
+**2.1 Base Case: เมื่อ n = 2** นี่คือหน่วยย่อยที่สุดของ Triforce
 
 ```cpp
-virus test_divoc(vector<int> gene , int start , int end , int k) {
-    // Base Case: เมื่อแบ่งจนเหลือขนาดเล็กที่สุด (k=0 หรือความยาว 1 ตัว)
-    if (k == 0) {
-        // ถือว่าเป็นจริงเสมอ และส่งค่าตัวเลขนั้นกลับไปเป็น count_one (0 หรือ 1)
-        return {true, gene[start]};
+int getTriforceType(int r, int c, int n) {
+    if (n == 2) {
+        // เงื่อนไข 1: ช่องล่างขวา (grid[r+1][c+1]) ต้องเป็น 0
+        if (grid[r + 1][c + 1] != 0) return 0;
+
+        int v1 = grid[r][c];         // บนซ้าย
+        int v2 = grid[r][c + 1];     // บนขวา
+        int v3 = grid[r + 1][c];     // ล่างซ้าย
+
+        // เงื่อนไข 2: ทั้ง 3 ช่องที่เหลือ ต้องไม่ใช่ 0
+        if (v1 == 0 || v2 == 0 || v3 == 0) return 0;
+
+        // เงื่อนไข 3: หาคู่ที่ซ้ำกัน (v1==v2 หรือ v1==v3 หรือ v2==v3)
+        if (v1 == v2 || v1 == v3) return v1;
+        if (v2 == v3) return v2;
+
+        return 0; // ถ้าตัวเลขไม่ซ้ำกันเลย ก็ไม่ใช่ Triforce
     }
+    // ... (ต่อส่วน Recursive)
+```
+**2.2 Recursive Step: เมื่อ n > 2** บ่งปัญหาใหญ่เป็นปัญหาย่อย
 
-    // Divide: หาจุดกึ่งกลาง
-    int mid = (start + end) / 2;
+```cpp
+int m = n / 2; // หาขนาดครึ่งหนึ่ง
 
-    // Conquer: เรียกตัวเองซ้ำเพื่อเช็คฝั่งซ้ายและขวา ลดค่า k ลงทีละ 1
-    virus left = test_divoc(gene, start, mid, k - 1);
-    virus right = test_divoc(gene, mid + 1, end, k - 1);
+    // ขั้นตอนสำคัญ: เช็คส่วน S (ล่างขวา) ก่อนเพื่อนเลย
+    // พิกัดของ S คือ (r+m, c+m) ถ้าไม่เป็น 0 ทั้งหมด ก็จบเลย ไม่ต้องไปเช็ค P,Q,R ให้เสียเวลา
+    if(!isAllZero(r + m, c + m, m)) return 0;
 
-    // Combine: เช็คเงื่อนไขสำคัญ
-    // 1. ซ้ายต้องผ่าน 2. ขวาต้องผ่าน 3. จำนวนเลข 1 ต่างกันไม่เกิน 1
-    bool current_is_divoc = left.is_divoc && right.is_divoc && (abs(left.count_one - right.count_one) <= 1);
+    // เรียกตัวเองซ้ำ (Recursion) เพื่อไปถามว่า P, Q, R เป็น Triforce ประเภทไหน
+    int typeP = getTriforceType(r, c, m);       // P: บนซ้าย
+    int typeQ = getTriforceType(r, c + m, m);   // Q: บนขวา
+    int typeR = getTriforceType(r + m, c, m);   // R: ล่างซ้าย
 
-    // Return: ส่งผลลัพธ์และผลรวมเลข 1 ของชั้นนี้กลับขึ้นไป
-    return {current_is_divoc, left.count_one + right.count_one};
+    // ถ้าส่วนประกอบย่อยส่วนใดส่วนหนึ่ง "พัง" (เป็น 0) ของใหญ่ก็พังด้วย
+    if (typeP == 0 || typeQ == 0 || typeR == 0) return 0;
+
+    // หา Majority Vote: ถ้ามี 2 ใน 3 ส่วน เป็นประเภทเดียวกัน ให้ตอบประเภทนั้น
+    if (typeP == typeQ || typeP == typeR) return typeP;
+    if (typeQ == typeR) return typeQ;
+
+    return 0; // ถ้า P, Q, R เป็นคนละเลขหมดเลย (เช่น 1, 2, 3)
 }
 ```
 
