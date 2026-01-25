@@ -2,7 +2,9 @@
 
 ## 1. วิเคราะห์โจทย์
 
-test: $\begin{bmatrix}A1 &A2 & A3\\A4 & A5 & A6 \end{bmatrix}$
+```math
+begin{bmatrix}X\\Y\end{bmatrix}
+```
 
 * เราต้องการหาค่าของเมทริกซ์ $A$ ยกกำลัง $n$ ($A^n$)
 * แล้วนำสมาชิกแต่ละตัวไป mod ด้วย $k$
