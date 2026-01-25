@@ -3,7 +3,7 @@
 ## 1. วิเคราะห์โจทย์
 
 ```math
-begin{bmatrix}X\\Y\end{bmatrix}
+\begin{bmatrix}X\\Y\end{bmatrix}
 ```
 
 * เราต้องการหาค่าของเมทริกซ์ $A$ ยกกำลัง $n$ ($A^n$)
