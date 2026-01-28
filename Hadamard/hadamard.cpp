@@ -3,7 +3,7 @@
 
 using namespace std;
 
-void fwht(vector<int> arr, int start , int len) {
+void fwht(vector<int>& arr, int start , int len) {
     if(len == 1) return;
 
     int half = len / 2;
