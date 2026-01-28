@@ -1,38 +1,41 @@
 #include <iostream>
-#include <cmath>
+#include <vector>
 
 using namespace std;
 
-int get_value(int a, int b, int r, int c) {
+void recur(vector<vector<int>> &v, int a, int b, int top, int bottom, int left, int right) {
     if (a == 0) {
-        return b;
+        v[top][left] = b;
+        return;
     }
 
-    int half = pow(2, a-1);
+    int mid_r = (top + bottom) / 2;
+    int mid_c = (left + right) / 2;
 
-    if (r < half && c < half) {
-        return get_value(a - 1, b, r, c);
-    }
-    else if (r < half && c >= half) {
-        return get_value(a - 1, b - 1, r, c - half);
-    }
-    else if (r >= half && c < half) {
-        return get_value(a - 1, b + 1, r - half, c);
-    }
-    else {
-        return get_value(a - 1, b, r - half, c - half);
-    }
+    recur(v, a - 1, b, top, mid_r, left, mid_c);
+
+    recur(v, a - 1, b - 1, top, mid_r, mid_c, right);
+
+    recur(v, a - 1, b + 1, mid_r, bottom, left, mid_c);
+
+    recur(v, a - 1, b, mid_r, bottom, mid_c, right);
 }
 
 int main() {
     int a, b;
     cin >> a >> b;
-    int n = pow(2, a);
+
+    int n = 1 << a; 
+    vector<vector<int>> v(n, vector<int>(n));
+
+    recur(v, a, b, 0, n, 0, n);
 
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n ; j++) {
-            cout << get_value(a,b,i,j) << (j == n - 1 ? "" : " ");
+        for (int j = 0; j < n; j++) {
+            cout << v[i][j] << " ";
         }
         cout << "\n";
     }
+
+    return 0;
 }
