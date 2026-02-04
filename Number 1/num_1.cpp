@@ -13,7 +13,7 @@ int get_length(int n) {
 }
 
 int count_ones(int n, int start, int end, int left, int right) {
-    if (start > left || end < right || n == 0) {
+    if (end < left || start > right || n == 0) {
         return 0;
     }
 
