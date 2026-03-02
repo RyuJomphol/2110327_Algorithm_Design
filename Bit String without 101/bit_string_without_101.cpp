@@ -3,8 +3,8 @@
 
 using namespace std;
 
-int N;
-int MOD = 100000007;
+long long N;
+long long MOD = 100000007;
 
 struct Matrix {
     int mat[3][3];
@@ -29,7 +29,7 @@ Matrix multiply(const Matrix& A, const Matrix& B) {
     return result;
 }
 
-Matrix matrix_pow(Matrix base, int exp) {
+Matrix matrix_pow(Matrix base, long long exp) {
     Matrix result;
     for (int i = 0; i < 3; i++) {
         result.mat[i][i] = 1;
@@ -66,10 +66,10 @@ int main() {
 
     T = matrix_pow(T, N - 1);
 
-    int countState0 = (T.mat[0][0] + T.mat[0][1]) % MOD;
-    int countState1 = (T.mat[1][0] + T.mat[1][1]) % MOD;
-    int countState2 = (T.mat[2][0] + T.mat[2][1]) % MOD;
-    int total = countState0 + countState1 + countState2;
+    long long countState0 = (T.mat[0][0] + T.mat[0][1]) % MOD;
+    long long countState1 = (T.mat[1][0] + T.mat[1][1]) % MOD;
+    long long countState2 = (T.mat[2][0] + T.mat[2][1]) % MOD;
+    long long total = countState0 + countState1 + countState2;
     total %= MOD;
     cout << total << "\n";
 }
