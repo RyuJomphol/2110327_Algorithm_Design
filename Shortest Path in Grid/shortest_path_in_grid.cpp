@@ -12,58 +12,46 @@ struct Node {
 
 int main() {
     int R, C;
-    if (!(cin >> R >> C)) return 0;
+    cin >> R >> C;
 
     vector<string> grid(R);
     for (int i = 0; i < R; i++) {
         cin >> grid[i];
     }
 
-    // กรณีพิเศษ: จุดเริ่มต้นหรือจุดจบถูกบล็อก (โจทย์บอกจุดเริ่มว่างเสมอ แต่เช็คเพื่อความชัวร์)
-    if (grid[0][0] == '#' || grid[R - 1][C - 1] == '#') {
-        cout << -1 << endl;
-        return 0;
-    }
+    vector<vector<bool>> visited(R, vector<bool>(C, false)); // สร้างตาราง visited เพื่อเช็คว่าตำแหน่งไหนถูกเยี่ยมชมแล้ว
+    visited[0][0] = true; // เริ่มต้นที่ตำแหน่ง (0, 0)
 
-    // อาร์เรย์สำหรับเช็คว่าเคยไปที่ช่องนั้นหรือยัง
-    vector<vector<bool>> visited(R, vector<bool>(C, false));
-    
-    // สร้าง Queue สำหรับ BFS และใส่จุดเริ่มต้นลงไป (เริ่มที่ระยะทาง 0)
+    // สร้าง queue สำหรับ BFS
     queue<Node> q;
-    q.push({0, 0, 0});
-    visited[0][0] = true;
+    q.push({0, 0, 0}); // เริ่มต้นที่ตำแหน่ง (0, 0) และระยะทางเริ่มต้นเป็น 0
 
-    // ทิศทางการเดิน 4 ทิศ (ล่าง, บน, ขวา, ซ้าย)
-    int dr[] = {1, -1, 0, 0};
-    int dc[] = {0, 0, 1, -1};
+    int dr[] = {1, -1, 0, 0}; // การเคลื่อนที่ในแนวตั้ง (ลง, ขึ้น)
+    int dc[] = {0, 0, 1, -1}; // การเคลื่อนที่ในแนวนอน (ขวา, ซ้าย)
 
     while (!q.empty()) {
         Node current = q.front();
         q.pop();
 
-        // ตรวจสอบว่าถึงจุดหมาย (R, C) หรือยัง
+        // ตรวจสอบว่าถึงจุดหมายแล้วหรือไม่
         if (current.r == R - 1 && current.c == C - 1) {
             cout << current.dist << endl;
             return 0;
         }
 
-        // ลองเดินไปทิศต่างๆ
+        // ตรวจสอบตำแหน่งที่สามารถเคลื่อนที่ได้
         for (int i = 0; i < 4; i++) {
             int nr = current.r + dr[i];
             int nc = current.c + dc[i];
 
-            // ตรวจสอบเงื่อนไข: อยู่ในขอบเขต, เป็นทางว่าง (.), และยังไม่เคยเดินผ่าน
-            if (nr >= 0 && nr < R && nc >= 0 && nc < C &&
-                grid[nr][nc] == '.' && !visited[nr][nc]) {
-                
+            // ตรวจสอบขอบเขตของตารางและว่าตำแหน่งนั้นไม่ถูกเยี่ยมชมแล้ว
+            if (nr >= 0 && nr < R && nc >= 0 && nc < C && !visited[nr][nc] && grid[nr][nc] == '.') {
                 visited[nr][nc] = true;
                 q.push({nr, nc, current.dist + 1});
             }
         }
     }
 
-    // ถ้าจบการทำงานใน Queue แล้วยังไม่ถึงจุดหมาย
-    cout << -1 << endl;
-
+    cout << "-1" << endl;
     return 0;
 }
