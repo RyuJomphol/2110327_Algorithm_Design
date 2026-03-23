@@ -10,6 +10,8 @@ struct Edge {
 
 const long long INF = 1e18;
 
+// if there are update value just print -1
+
 
 int main() {
     ios_base::sync_with_stdio(false);
