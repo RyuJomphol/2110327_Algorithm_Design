@@ -26,14 +26,14 @@ int main() {
 
     vector<vector<int>> adj(n);
     for (int i = 0; i < m; i++) {
-        int a, b;
-        cin >> a >> b;
-        adj[a].push_back(b);
+        int a, c;
+        cin >> a >> c;
+        adj[a].push_back(c);
     }
 
     vector<bool> burnt(n, false);
 
-    for (int day = 0; day < m; day++) {
+    for (int day = 0; day < k; day++) {
         int start = fire[day];
 
         if (!burnt[start]) {
