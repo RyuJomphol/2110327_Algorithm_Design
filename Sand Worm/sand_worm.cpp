@@ -82,7 +82,7 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(NULL);
 
-    if (!(cin >> R >> C >> K)) return 0;
+    cin >> R >> C >> K;
 
     // รับข้อมูลซีกโลกเหนือ
     for (int i = 1; i <= R; i++) {
