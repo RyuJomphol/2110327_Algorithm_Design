@@ -70,7 +70,7 @@ int main() {
                     }
                 }
             }
-            else if (!col_launched[c]) {
+            if (!col_launched[c]) {
                 col_launched[c] = true;
                 for (int nr = 0; nr < N; nr++) {
                     if (grid[nr][c] != 'X' && dist[nr][c] == INF) {
