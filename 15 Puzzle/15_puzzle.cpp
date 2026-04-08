@@ -80,4 +80,7 @@ int main() {
             limit = next_limit;
         }
     }
+
+    cout << limit << endl;
+    return 0;
 }
