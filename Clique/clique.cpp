@@ -50,11 +50,31 @@ int main() {
             continue;
         }
 
-        int v = __builtin_ctzll(state.candidates);
-        ll new_candidates = state.candidates & ~adj[v] & ~(1LL << v);
+        int potential_sum = state.current_sum;
+        for (int i = 0; i < n; i++) {
+            if (state.candidates & (1LL << i)) {
+                potential_sum += B[i];
+            }
+        }
+        if (potential_sum <= max_weight) {
+            continue;
+        }
 
-        stack.push_back({state.candidates & ~(1LL << v), state.current_sum});
-        stack.push_back({new_candidates, state.current_sum + B[v]});
+        int v = 0;
+        while ((state.candidates & (1LL << v)) == 0) {
+            v++;
+        }
+
+        ll v_mask = (1LL << v);
+
+        // กรณี A: "ไม่เลือก" พนักงาน v เข้าทีม
+        // แค่เอา v ออกจากเซต candidates แล้วไปต่อ
+        stack.push_back({state.candidates ^ v_mask, state.current_sum});
+
+        // กรณี B: "เลือก" พนักงาน v เข้าทีม
+        // 1. เพิ่มน้ำหนัก v เข้าไปใน current_sum
+        // 2. คนที่จะเลือกต่อได้ ต้องเป็นเพื่อนกับ v เท่านั้น (candidates & adj[v])
+        stack.push_back({(state.candidates ^ v_mask) & adj[v], state.current_sum + B[v]});
     }
 
     cout << max_weight << endl;
